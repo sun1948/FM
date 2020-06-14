@@ -224,7 +224,7 @@ var Footer = {
   render: function render() {
     var _this = this;
 
-    $.getJSON('//api.jirengu.com/fm/v2/getChannels.php').done(function (ret) {
+    $.getJSON('//jirenguapi.applinzi.com/fm/v2/getChannels.php').done(function (ret) {
       _this.renderFooter(ret.channels);
     }).fail(function () {
       console.log('error');
@@ -440,4 +440,4 @@ $.fn.lyricAnimate = function (type) {
 Footer.init();
 Fm.init();
 },{"./style.css":"iMte"}]},{},["epB2"], null)
-//# sourceMappingURL=main.044e66d4.js.map
+//# sourceMappingURL=main.8871a797.js.map
