@@ -27,6 +27,7 @@ ul, li {
   margin: 0 auto;
 }
 
+
 @media (min-width: 700px) {
   .layout {
     width: 600px;
@@ -111,26 +112,36 @@ main .aside .actions .iconfont:hover {
   color: #ffffff;
 }
 
+main .aside .actions .icon-heart.active{
+  color: red;
+}
+
 main .detail {
+  height: 64vh;
   margin-left: 56vh;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 main .detail .tag {
   font-size: 2vh;
   background-color: #3a71e4;
   padding: .4em .8em;
+  width: fit-content;
 }
 
 main .detail h1 {
   font-size: 6vh;
   margin-top: 2vh;
+  margin-bottom: 5vh;
 }
 
 main .detail .icons {
   display: flex;
   font-size: 3vh;
-  margin-top: 12vh;
+  margin-bottom: 4vh;
 }
 
 main .detail .icons > li {
@@ -145,11 +156,14 @@ main .detail .icons .iconfont {
 main .detail .area-bar {
   display: flex;
   align-items: center;
-  margin-top: 10vh;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
 }
-
+main .detail .area-bar:hover {
+  cursor: pointer;
+}
 main .detail .area-bar .bar {
-  flex: 1;
+  width: 90%;
   height: .8vh;
   background: rgba(255, 255, 255, 0.4);
   border-radius: .4vh;
@@ -166,18 +180,43 @@ main .detail .area-bar .bar > .bar-progress {
   width: 0;
   border-radius: .4vh;
   background: #ffffff;
-  transition: width 1s;
+  transition: width .5s;
 }
 
 main .detail .author {
-  margin-top: 3vh;
   font-size: 3vh;
 }
 
 main .detail .lyric {
+  height: 8vh;
   margin-top: 2vh;
   font-size: 2vh;
   color: rgba(255, 255, 255, 0.4);
+}
+
+@media (min-width: 400px) and (max-width: 700px) {
+  main .detail h1 {
+    font-size: 4vh;
+  }
+  main .detail .tag {
+    font-size: 2vh;
+  }
+  main .detail .lyric {
+    font-size: 2vh;
+  }
+  main .detail .author {
+    font-size: 2vh;
+  }
+  main .detail .icons {
+    font-size: 1vh;
+  }
+
+  main .detail .icons .iconfont {
+    font-size: 1vh;
+  }
+  main .detail .area-bar .current-time {
+    font-size: 1vh;
+  }
 }
 
 footer {
@@ -206,9 +245,11 @@ footer .cover-wrap li {
   margin: 2vh 3vh 0 1vh;
   width: 20vh;
 }
-footer .cover-wrap li.active{
+
+footer .cover-wrap li.active {
   box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, 0.8);
 }
+
 footer .cover-wrap li:hover {
   box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, 0.8);
 }
@@ -254,4 +295,7 @@ footer .icon-right:hover {
   color: #fff;
 }
 
-/*# sourceMappingURL=main.01d4b1d7.css.map */
+
+
+
+/*# sourceMappingURL=main.d3ae2bf7.css.map */

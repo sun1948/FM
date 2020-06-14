@@ -66,11 +66,19 @@ const Footer = {
     this.$footer.on('click', 'li', function () {
       $(this).addClass('active')
         .siblings().removeClass('active')
-      EventBus.trigger('album-selected', {
-        channelId: $(this).attr('data-channel-id'),
-        channelName: $(this).attr('data-channel-name')
-      })
+      if (!$(this).hasClass('myFavorite')) {
+        EventBus.trigger('album-selected', {
+          channelId: $(this).attr('data-channel-id'),
+          channelName: $(this).attr('data-channel-name')
+        })
+      } else {
+        EventBus.trigger('like-selected', {
+          channelId: null,
+          channelName: '我的收藏'
+        })
+      }
     })
+
     $(window).resize(function () {
       const $vh = $(window).height() / 100
       const $li = _this.$footer.find('li')
@@ -129,6 +137,7 @@ const Fm = {
     this.clock = null
     this.localSongArr = JSON.parse(localStorage.getItem('like')) || []
     this.loading = false
+    this.like = false
     this.bind()
   },
   bind() {
@@ -145,6 +154,13 @@ const Fm = {
       _this.audioPlay = false
       _this.loadMusic()
     })
+    EventBus.on('like-selected', function (e, channelObj) {
+      _this.channelId = channelObj.channelId
+      _this.channelName = channelObj.channelName
+      _this.audioPlay = true
+      _this.like = true
+      _this.loadMusic(_this.like)
+    })
     this.$container.find('.btn-play').on('click', function () {
       if ($(this).hasClass('icon-play')) {
         _this.audio.play()
@@ -158,7 +174,11 @@ const Fm = {
       _this.audioPlay = true
       if (!_this.loading) {
         _this.loading = true
-        _this.loadMusic()
+        if (_this.like) {
+          _this.loadMusic(_this.like)
+        } else {
+          _this.loadMusic()
+        }
       }
     })
     this.$container.find('.btn-collect').on('click', function () {
@@ -168,13 +188,13 @@ const Fm = {
         $(this).removeClass('active')
         //删除本地数组中对应歌曲对象
         let songIndex
-        _this.localSongArr.forEach(function (song,index) {
+        _this.localSongArr.forEach(function (song, index) {
           if (song.sid === _this.song.sid) {
             songIndex = index
           }
         })
         _this.localSongArr.splice(songIndex, 1)
-        localStorage.setItem('like',JSON.stringify(_this.localSongArr))
+        localStorage.setItem('like', JSON.stringify(_this.localSongArr))
         const val = parseInt($numberSpan.text()) - 1
         $numberSpan.text(val)
       } else {  //执行收藏功能
@@ -211,9 +231,25 @@ const Fm = {
       const dif = e.clientX - barLeft
       $barProgress.css('width', dif / $bar.width() * 100 + '%')
       _this.audio.currentTime = _this.audio.duration * dif / $bar.width()
+      _this.audio.play()
     })
   },
-  loadMusic() {
+  loadMusic(like) {
+    //若点击我的收藏，则从本地读取歌单
+    if (like) {
+      if(this.localSongArr.length >0){
+        const index = Math.floor(Math.random()*(this.localSongArr.length))
+        this.song = this.localSongArr[index]
+        this.like = true
+        this.setMusic()
+        this.loadLyric()
+        this.loading = false
+      }else{
+        console.log("收藏夹暂为空")
+      }
+      return
+    }
+    this.like = false
     const _this = this
     $.getJSON('//jirenguapi.applinzi.com/fm/v2/getSong.php', {channel: this.channelId})
       .done(function (ret) {
