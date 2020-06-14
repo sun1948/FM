@@ -1,0 +1,257 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, section {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font: 14px/1.5 Arial;
+}
+
+a {
+  text-decoration: none;
+  color: #444;
+}
+
+ul, li {
+  list-style: none;
+}
+
+.layout {
+  width: 600px;
+  margin: 0 auto;
+}
+
+@media (min-width: 700px) {
+  .layout {
+    width: 600px;
+  }
+}
+
+@media (min-width: 900px) {
+  .layout {
+    width: 800px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .layout {
+    width: 900px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .layout {
+    width: 1100px;
+  }
+}
+
+#page-cover {
+  display: none;
+}
+
+#bg {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  bottom: -10px;
+  right: -10px;
+  z-index: -1;
+  background: url("http://cloud.hunger-valley.com/music/public_tuijian_spring.jpg-middle") center center no-repeat;
+  background-size: cover;
+  filter: blur(4px);
+}
+
+#bg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+main {
+  padding-top: 12vh;
+  height: calc(100% - 24vh);
+}
+
+main .aside {
+  float: left;
+}
+
+main .aside figure {
+  width: 46vh;
+  height: 46vh;
+  background: url("http://cloud.hunger-valley.com/music/public_tuijian_spring.jpg-middle");
+  background-size: cover;
+}
+
+main .aside .actions {
+  display: flex;
+  margin-top: 4vh;
+}
+
+main .aside .actions .iconfont {
+  flex: 1;
+  text-align: center;
+  font-size: 5vh;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color .4s;
+  cursor: pointer;
+}
+
+main .aside .actions .iconfont:hover {
+  color: #ffffff;
+}
+
+main .detail {
+  margin-left: 56vh;
+  color: #fff;
+}
+
+main .detail .tag {
+  font-size: 2vh;
+  background-color: #3a71e4;
+  padding: .4em .8em;
+}
+
+main .detail h1 {
+  font-size: 6vh;
+  margin-top: 2vh;
+}
+
+main .detail .icons {
+  display: flex;
+  font-size: 3vh;
+  margin-top: 12vh;
+}
+
+main .detail .icons > li {
+  flex: 1;
+}
+
+main .detail .icons .iconfont {
+  font-size: 3vh;
+  margin-right: 1vh;
+}
+
+main .detail .area-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 10vh;
+}
+
+main .detail .area-bar .bar {
+  flex: 1;
+  height: .8vh;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: .4vh;
+  margin-right: 2vh;
+}
+
+main .detail .area-bar .current-time {
+  font-size: 2vh;
+  width: 3vh;
+}
+
+main .detail .area-bar .bar > .bar-progress {
+  height: .8vh;
+  width: 0;
+  border-radius: .4vh;
+  background: #ffffff;
+  transition: width 1s;
+}
+
+main .detail .author {
+  margin-top: 3vh;
+  font-size: 3vh;
+}
+
+main .detail .lyric {
+  margin-top: 2vh;
+  font-size: 2vh;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+footer {
+  height: 24vh;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 -.25vh .25vh .25vh rgba(255, 255, 255, 0.2);
+}
+
+footer .layout {
+  position: relative;
+}
+
+footer .layout .cover-wrap {
+  overflow: hidden;
+  height: 24vh;
+  position: relative;
+}
+
+footer .cover-wrap ul {
+  display: flex;
+  position: absolute;
+  left: 0;
+}
+
+footer .cover-wrap li {
+  margin: 2vh 3vh 0 1vh;
+  width: 20vh;
+}
+footer .cover-wrap li.active{
+  box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, 0.8);
+}
+footer .cover-wrap li:hover {
+  box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, 0.8);
+}
+
+footer .cover-wrap li .cover {
+  height: 16vh;
+  background-size: cover;
+  background-position: center center;
+  margin-bottom: 1vh;
+  cursor: pointer;
+}
+
+footer .cover-wrap li h3 {
+  text-align: center;
+  font-size: 2vh;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+footer .iconfont {
+  position: absolute;
+  font-size: 5vh;
+  color: rgba(255, 255, 255, 0.4);
+  top: 8vh;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+footer:hover .iconfont {
+  opacity: 1;
+}
+
+footer .icon-left {
+  left: -8vh;
+}
+
+footer .icon-right {
+  right: -8vh;
+}
+
+footer .icon-left:hover,
+footer .icon-right:hover {
+  color: #fff;
+}
+
+/*# sourceMappingURL=main.01d4b1d7.css.map */
