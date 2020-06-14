@@ -112,6 +112,10 @@ main .aside .actions .iconfont:hover {
   color: #ffffff;
 }
 
+main .aside .actions .icon-heart.active{
+  color: red;
+}
+
 main .detail {
   height: 64vh;
   margin-left: 56vh;

@@ -301,7 +301,7 @@ var Footer = {
     });
   },
   renderFooter: function renderFooter(channels) {
-    var html = '<li class="myFavorite"><div class="cover" style="background-image: "></div><h3>我的收藏</h3></li>';
+    var html = '<li class="myFavorite">' + '<div class="cover" style="background-color: chocolate"></div>' + '<h3>我的收藏</h3></li>';
     channels.forEach(function (channel) {
       html += '<li data-channel-id=' + channel.channel_id + ' data-channel-name=' + channel.name + '>' + '<div class="cover" style="background-image:url(' + channel.cover_small + ')"></div>' + '<h3>' + channel.name + '</h3>' + '</li>';
     });
@@ -318,9 +318,9 @@ var Footer = {
     });
   },
   trigger: function trigger() {
-    EventBus.trigger('loaded', {
-      channelId: $('footer ul li').first().attr('data-channel-id'),
-      channelName: $('footer ul li:first').attr('data-channel-name')
+    EventBus.trigger('loading', {
+      channelId: $('footer ul li').eq(1).attr('data-channel-id'),
+      channelName: $('footer ul li').eq(1).attr('data-channel-name')
     });
   }
 };
@@ -329,7 +329,7 @@ var Fm = {
     this.$container = $('#page-music');
     this.audio = new Audio();
     this.clock = null;
-    this.flag = false;
+    this.localSongArr = JSON.parse(localStorage.getItem('like')) || [];
     this.loading = false;
     this.bind();
   },
@@ -343,7 +343,7 @@ var Fm = {
 
       _this.loadMusic();
     });
-    EventBus.on('loaded', function (e, channelObj) {
+    EventBus.on('loading', function (e, channelObj) {
       _this.channelId = channelObj.channelId;
       _this.channelName = channelObj.channelName;
       _this.audioPlay = false;
@@ -370,7 +370,40 @@ var Fm = {
         _this.loadMusic();
       }
     });
-    this.$container.find('.btn-collect').on('click', function () {});
+    this.$container.find('.btn-collect').on('click', function () {
+      var $numberSpan = _this.$container.find('.icons li').eq(1).find('span').eq(1);
+
+      if ($(this).hasClass('active')) {
+        //取消收藏
+        $(this).removeClass('active'); //删除本地数组中对应歌曲对象
+
+        var songIndex;
+
+        _this.localSongArr.forEach(function (song, index) {
+          if (song.sid === _this.song.sid) {
+            songIndex = index;
+          }
+        });
+
+        _this.localSongArr.splice(songIndex, 1);
+
+        localStorage.setItem('like', JSON.stringify(_this.localSongArr));
+        var val = parseInt($numberSpan.text()) - 1;
+        $numberSpan.text(val);
+      } else {
+        //执行收藏功能
+        //亮红心
+        $(this).addClass('active'); //收藏+1
+
+        var _val = parseInt($numberSpan.text()) + 1;
+
+        $numberSpan.text(_val); //存储当前歌曲信息到localStorage
+
+        _this.localSongArr.push(_this.song);
+
+        localStorage.setItem('like', JSON.stringify(_this.localSongArr));
+      }
+    });
     this.audio.addEventListener('play', function () {
       _this.$container.find('.btn-play').removeClass('icon-play').addClass('icon-pause');
 
@@ -389,22 +422,6 @@ var Fm = {
 
       _this.loadMusic();
     });
-    this.$container.find('.actions .icon-heart').on('click', function () {
-      if (!_this.flag) {
-        _this.flag = true;
-        $(this).css('color', 'red');
-        var val = parseInt(_this.$container.find('.icons li').eq(1).find('span').eq(1).text()) + 1;
-
-        _this.$container.find('.icons li').eq(1).find('span').eq(1).text(val);
-      } else {
-        _this.flag = false;
-        $(this).css('color', 'rgba(255, 255, 255, 0.4)');
-
-        var _val = parseInt(_this.$container.find('.icons li').eq(1).find('span').eq(1).text()) - 1;
-
-        _this.$container.find('.icons li').eq(1).find('span').eq(1).text(_val);
-      }
-    });
     this.$container.find('.detail .bar').on('click', function (e) {
       var $bar = _this.$container.find('.detail .bar');
 
@@ -422,7 +439,7 @@ var Fm = {
     $.getJSON('//jirenguapi.applinzi.com/fm/v2/getSong.php', {
       channel: this.channelId
     }).done(function (ret) {
-      _this.loading = false;
+      _this.loading = false; //完成加载，可以点击下一首
 
       if (ret['song'].length !== 0) {
         _this.song = ret['song'][0];
@@ -436,6 +453,8 @@ var Fm = {
     });
   },
   setMusic: function setMusic() {
+    var _this = this;
+
     this.audio.src = this.song.url;
     $('#bg').css('background-image', 'url(' + this.song.picture + ')');
     this.$container.find('main figure').css('background-image', 'url(' + this.song.picture + ')');
@@ -443,7 +462,9 @@ var Fm = {
     this.$container.find('.detail h1').text(songName);
     this.$container.find('.detail .author').text(this.song.artist);
     this.$container.find('.detail .tag').text(this.channelName);
-    if (this.audioPlay) this.audio.play();
+    if (this.audioPlay) this.audio.play(); //查找本地歌曲信息，判断其是否为收藏曲目，设置红心
+
+    this.checkSong();
   },
   loadLyric: function loadLyric() {
     var _this = this;
@@ -487,6 +508,22 @@ var Fm = {
 
     if (lyricLine) {
       this.$container.find('.lyric p').text(lyricLine).lyricAnimate('rollIn');
+    }
+  },
+  checkSong: function checkSong() {
+    var _this = this;
+
+    var count = 0;
+    this.localSongArr.forEach(function (song) {
+      if (song.sid === _this.song.sid) {
+        count += 1;
+      }
+    });
+
+    if (count > 0) {
+      _this.$container.find('.actions .icon-heart').addClass('active');
+    } else {
+      _this.$container.find('.actions .icon-heart').removeClass('active');
     }
   }
 };
