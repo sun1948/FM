@@ -92,7 +92,7 @@ const Footer = {
       })
   },
   renderFooter(channels) {
-    let html = ''
+    let html = '<li class="myFavorite"><div class="cover" style="background-image: "></div><h3>我的收藏</h3></li>'
     channels.forEach(function (channel) {
       html += '<li data-channel-id=' + channel.channel_id + ' data-channel-name=' + channel.name + '>'
         + '<div class="cover" style="background-image:url(' + channel.cover_small + ')"></div>'
@@ -154,7 +154,7 @@ const Fm = {
     })
     this.$container.find('.btn-next').on('click', function () {
       _this.audioPlay = true
-      if(!_this.loading){
+      if (!_this.loading) {
         _this.loading = true
         _this.loadMusic()
       }
@@ -188,8 +188,14 @@ const Fm = {
         const val = parseInt(_this.$container.find('.icons li').eq(1).find('span').eq(1).text()) - 1
         _this.$container.find('.icons li').eq(1).find('span').eq(1).text(val)
       }
-
-
+    })
+    this.$container.find('.detail .bar').on('click', function (e) {
+      const $bar = _this.$container.find('.detail .bar')
+      const $barProgress = _this.$container.find('.detail .bar-progress')
+      const barLeft = $bar.offset().left
+      const dif = e.clientX - barLeft
+      $barProgress.css('width', dif / $bar.width() * 100 + '%')
+      _this.audio.currentTime = _this.audio.duration * dif / $bar.width()
     })
   },
   loadMusic() {
@@ -210,7 +216,8 @@ const Fm = {
     this.audio.src = this.song.url
     $('#bg').css('background-image', 'url(' + this.song.picture + ')')
     this.$container.find('main figure').css('background-image', 'url(' + this.song.picture + ')')
-    this.$container.find('.detail h1').text(this.song.title)
+    const songName = this.song.title.length < 30 ? this.song.title : this.song.title.substr(0, 30)
+    this.$container.find('.detail h1').text(songName)
     this.$container.find('.detail .author').text(this.song.artist)
     this.$container.find('.detail .tag').text(this.channelName)
     if (this.audioPlay) this.audio.play()
@@ -254,7 +261,7 @@ const Fm = {
     const musicTime = musicMin + ':' + musicSec
     const lyricLine = this.lyricObj[musicTime]
     if (lyricLine) {
-      this.$container.find('.lyric p').text(lyricLine).lyricAnimate('animate__flipInX')
+      this.$container.find('.lyric p').text(lyricLine).lyricAnimate('rollIn')
     }
   },
 }
@@ -275,14 +282,14 @@ $.fn.lyricAnimate = function (type) {
   }
   this.html(lyricStr)
   let index = 0
-  const $words = this.find('span')
+  const $words = this.find('span').css('opacity',0)
   const clock = setInterval(function () {
-    $words.eq(index).addClass('animate__animated ' + type)
+    $words.eq(index).addClass('animate__animated ' + 'animate__' + type).css('opacity',1)
     index += 1
     if (index >= $words.length) {
       clearInterval(clock)
     }
-  }, 300)
+  }, 200)
 }
 
 Footer.init()
