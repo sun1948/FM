@@ -245,7 +245,7 @@ const Fm = {
         this.loadLyric()
         this.loading = false
       }else{
-        console.log("收藏夹暂为空")
+        alert("收藏夹暂为空，请添加～")
       }
       return
     }
