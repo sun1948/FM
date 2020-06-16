@@ -4,11 +4,9 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-section {
-  height: 100%;
+html, body, section {
   overflow: hidden;
+  height: 100%;
 }
 
 body {
@@ -66,10 +64,6 @@ li {
   }
 }
 
-#page-cover {
-  display: none;
-}
-
 #bg {
   position: absolute;
   top: -10px;
@@ -95,6 +89,12 @@ li {
 main {
   padding-top: 12vh;
   height: calc(100% - 24vh);
+}
+
+main.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
 main .aside {
@@ -358,7 +358,7 @@ footer .icon-right:hover {
     position: absolute;
     top: 70vh;
     width: 100%;
-    justify-content: space-evenly ;
+    justify-content: space-evenly;
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -434,7 +434,7 @@ footer .icon-right:hover {
   }
 
   footer .cover-wrap li .cover {
-    height:9vh;
+    height: 9vh;
   }
 
   footer .cover-wrap li h3 {
