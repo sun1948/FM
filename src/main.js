@@ -78,19 +78,6 @@ const Footer = {
         })
       }
     })
-
-    $(window).resize(function () {
-      const $vh = $(window).height() / 100
-      const $li = _this.$footer.find('li')
-      const count = $li.length
-      const width = $li.outerWidth(true)
-      const $viewPortWidth = $(window).height
-      if ($viewPortWidth < 500) {$li.find('.cover').css({width: 10 * $vh})}
-      $li.find('.cover').css({width: 20 * $vh})
-      _this.$ul.css({
-        width: width * count
-      })
-    })
   },
   render() {
     const _this = this
@@ -113,16 +100,7 @@ const Footer = {
         + '</li>'
     })
     this.$ul.html(html)
-    this.setStyle()
     this.trigger()
-  },
-  setStyle() {
-    const $li = this.$footer.find('li')
-    const count = $li.length
-    const width = $li.outerWidth(true)
-    this.$ul.css({
-      width: width * count
-    })
   },
   trigger() {
     EventBus.trigger('loading', {
