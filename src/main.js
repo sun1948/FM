@@ -82,9 +82,11 @@ const Footer = {
     $(window).resize(function () {
       const $vh = $(window).height() / 100
       const $li = _this.$footer.find('li')
-      $li.find('.cover').css({width: 20 * $vh})
       const count = $li.length
       const width = $li.outerWidth(true)
+      const $viewPortWidth = $(window).height
+      if ($viewPortWidth < 500) {$li.find('.cover').css({width: 10 * $vh})}
+      $li.find('.cover').css({width: 20 * $vh})
       _this.$ul.css({
         width: width * count
       })
@@ -205,7 +207,7 @@ const Fm = {
         $numberSpan.text(val)
         //存储当前歌曲信息到localStorage
         _this.localSongArr.push(_this.song)
-        localStorage.setItem('like', JSON.stringify(_this.localSongArr));
+        localStorage.setItem('like', JSON.stringify(_this.localSongArr))
       }
     })
     this.audio.addEventListener('play', function () {
@@ -237,15 +239,15 @@ const Fm = {
   loadMusic(like) {
     //若点击我的收藏，则从本地读取歌单
     if (like) {
-      if(this.localSongArr.length >0){
-        const index = Math.floor(Math.random()*(this.localSongArr.length))
+      if (this.localSongArr.length > 0) {
+        const index = Math.floor(Math.random() * (this.localSongArr.length))
         this.song = this.localSongArr[index]
         this.like = true
         this.setMusic()
         this.loadLyric()
         this.loading = false
-      }else{
-        alert("收藏夹暂为空，请添加～")
+      } else {
+        alert('收藏夹暂为空，请添加～')
       }
       return
     }

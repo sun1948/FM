@@ -218,11 +218,19 @@ var Footer = {
 
       var $li = _this.$footer.find('li');
 
+      var count = $li.length;
+      var width = $li.outerWidth(true);
+      var $viewPortWidth = $(window).height;
+
+      if ($viewPortWidth < 500) {
+        $li.find('.cover').css({
+          width: 10 * $vh
+        });
+      }
+
       $li.find('.cover').css({
         width: 20 * $vh
       });
-      var count = $li.length;
-      var width = $li.outerWidth(true);
 
       _this.$ul.css({
         width: width * count
@@ -397,7 +405,7 @@ var Fm = {
         this.loadLyric();
         this.loading = false;
       } else {
-        alert("收藏夹暂为空，请添加～");
+        alert('收藏夹暂为空，请添加～');
       }
 
       return;
@@ -529,4 +537,4 @@ $.fn.lyricAnimate = function (type) {
 Footer.init();
 Fm.init();
 },{"./style.css":"iMte"}]},{},["epB2"], null)
-//# sourceMappingURL=main.3a909bb1.js.map
+//# sourceMappingURL=main.030761eb.js.map
